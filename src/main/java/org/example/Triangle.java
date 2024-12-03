@@ -1,7 +1,24 @@
 package org.example;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "triangle")
 public class Triangle extends Shape {
-    private double a,b,c,h;
+
+    @Column(nullable = false)
+    private double a;
+
+    @Column(nullable = false)
+    private double b;
+
+    @Column(nullable = false)
+    private double c;
+
+    @Column(nullable = false)
+    private double h;
+
+
+    public Triangle() {}
 
     public Triangle (double a, double b, double c, double h, Color color) {
         super(color);
@@ -17,18 +34,19 @@ public class Triangle extends Shape {
         this.h = h;
     }
 
+    @Override
     public double getArea() {
         return (a * h)/2;
     }
-
+    @Override
     public double getPerimeter() {
         return a+b+c;
     }
 
+
     public double getA() {
         return a;
     }
-
     public double getH() {
         return h;
     }

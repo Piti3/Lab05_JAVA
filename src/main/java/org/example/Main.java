@@ -1,49 +1,47 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        // Utworzenie obiektu DAO
+        ShapeDAO shapeDAO = new ShapeDAO();
 
-        Color red = new Color(255, 0, 0);
-        Color green = new Color(0, 255, 0);
+        // Tworzenie obiektów Color
+        System.out.println("Zapisywanie kolorów do bazy");
+        Color red = new Color(255, 129, 0);
+        Color green = new Color(220, 255, 0);
 
-        Rectangle rectangle = new Rectangle(5.0, 3.0, red);
+        // Zapis kolorów najpierw
+        shapeDAO.saveColor(red);
+        shapeDAO.saveColor(green);
+        System.out.println("Kolory zapisane");
+
+        // Tworzenie obiektów Rectangle i Triangle z referencją do zapisanych kolorów
+        Rectangle rectangle = new Rectangle(5.0, 4.0, red);
         Triangle triangle = new Triangle(7.0, 4.0, 4.0, 4, green);
 
-        // ShapeDescriber
-        ShapeDescriber shapeDescriber = new ShapeDescriber();
+        // Zapis obiektów do bazy
+        System.out.println("\nZapisywanie figur do bazy");
+        shapeDAO.save(rectangle);
+        shapeDAO.save(triangle);
+        System.out.println("Figury zapisane!");
 
-        System.out.println("================= ZAD 1-3 =================");
-        // Prostokąt
-        System.out.println("\n=== Rectangle ===");
-        shapeDescriber.describe(rectangle);
-
-        // Trójkąt
-        System.out.println("\n=== Triangle ===");
-        shapeDescriber.describe(triangle);
-
-        // Color test
-        System.out.println("\n=== Color ===");
-        try {
-            Color validColor = new Color(255, 100, 50, 128);
-            System.out.println("Poprawny kolor: (" + validColor.r() + ", " + validColor.g() + ", " + validColor.b() + ", " + validColor.alpha() + ")");
-
-            Color invalidColor = new Color(300, -20, 50);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Blad koloru: " + e.getMessage());
+        // Odczyt danych z bazy
+        System.out.println("\nOdczytywanie wszystkich figur z bazy:");
+        List<Shape> shapes = shapeDAO.findAll();
+        for (Shape shape : shapes) {
+            System.out.println("\nFigura: " + shape.getClass().getSimpleName());
+            System.out.println("Kolor: " + shape.getColorDescription());
+            System.out.println("Pole: " + shape.getArea());
+            System.out.println("Obwód: " + shape.getPerimeter());
         }
 
-        List<Shape> shapes = new ArrayList<>();
-        shapes.add(rectangle);
-        shapes.add(triangle);
-
-        // ShapeRenderer
         ShapeRenderer shapeRenderer = new ShapeRenderer();
-        System.out.println("\n================= ZAD 4 =================");
-        System.out.println("=== Rysowanie figur ===");
+        System.out.println("\n================= Rysowanie figur =================");
         shapeRenderer.render(shapes);
 
+        // Zamknięcie zasobów
+        shapeDAO.close();
     }
 }

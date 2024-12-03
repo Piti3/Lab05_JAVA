@@ -7,7 +7,7 @@
     <session-factory>
         <!-- Połączenie z bazą danych -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/Baza_pod_JAVE</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/BAZA_JAVA</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">123</property>
 
@@ -20,6 +20,9 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Mapowanie encji -->
-        <!-- <mapping class="org.example.YourEntity"/> -->
+        <mapping class="org.example.Color"/>
+        <mapping class="org.example.Shape"/>
+        <mapping class="org.example.Rectangle"/>
+        <mapping class="org.example.Triangle"/>
     </session-factory>
 </hibernate-configuration>
