@@ -12,12 +12,12 @@ public class Main {
         Color red = new Color(255, 129, 0);
         Color green = new Color(220, 255, 0);
 
-        // Zapis kolorów najpierw
+        // Zapis kolorów
         shapeDAO.saveColor(red);
         shapeDAO.saveColor(green);
         System.out.println("Kolory zapisane");
 
-        // Tworzenie obiektów Rectangle i Triangle z referencją do zapisanych kolorów
+        // Tworzenie obiektów Rectangle i Triangle
         Rectangle rectangle = new Rectangle(5.0, 4.0, red);
         Triangle triangle = new Triangle(7.0, 4.0, 4.0, 4, green);
 
@@ -37,6 +37,7 @@ public class Main {
             System.out.println("Obwód: " + shape.getPerimeter());
         }
 
+        //Rysowanie obiektów
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         System.out.println("\n================= Rysowanie figur =================");
         shapeRenderer.render(shapes);

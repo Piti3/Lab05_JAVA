@@ -9,7 +9,7 @@ public class HibernateUtil {
     static {
         try {
 
-            String configFile = System.getProperty("hibernate.config", "hibernate.cfg.xml");
+            String configFile = System.getProperty("hibernate.config", "hibernate.cfg.xml"); //hibernate.config jest pod testy mvn -D hibernate.config=hibernate-test.cfg.xml test
             sessionFactory = new Configuration().configure(configFile).buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed: " + ex);
