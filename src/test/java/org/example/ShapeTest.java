@@ -1,8 +1,10 @@
 package org.example;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
-import org.hibernate.SessionFactory;
+
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 
 class ColorTest {
@@ -82,37 +84,81 @@ class RectangleTest {
     }
 }
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ShapeDAOTest {
 
-    private ShapeDAO shapeDAO;
+    private Session session;
+    private Transaction transaction;
 
     @BeforeEach
     void setUp() {
-        shapeDAO = new ShapeDAO();
+        session = HibernateUtil.getSessionFactory().openSession();
+        transaction = session.beginTransaction();
     }
 
     @AfterEach
     void tearDown() {
-        shapeDAO.close();
+        if (transaction != null && transaction.isActive()) {
+            transaction.rollback();
+        }
+        session.close();
+    }
+
+    @AfterAll
+    void tearDownAll() {
+        HibernateUtil.shutdown();
     }
 
     @Test
-    void saveColor() {
-        Color color = new Color(128, 64, 32);
-        shapeDAO.saveColor(color);
-        assertNotNull(color.getR());
+    void testSaveShape() {
+        Color color = new Color(255, 0, 0);
+        session.save(color);  // Zapis koloru przed zapisem Shape
+
+        Shape rectangle = new Rectangle(5.0, 4.0, color);
+        session.save(rectangle);
+        assertNotNull(rectangle.getId());
     }
 
     @Test
-    void save() {
-        Shape rectangle = new Rectangle(5.0, 4.0, new Color(128, 64, 32));
-        shapeDAO.save(rectangle);
-        assertNotNull(rectangle.getColor());
+    void testReadShape() {
+        Color color = new Color(0, 255, 0);
+        session.save(color);
+
+        Shape triangle = new Triangle(3.0, 4.0, 5.0, 2.5, color);
+        session.save(triangle);
+
+        Shape retrievedShape = session.get(Triangle.class, triangle.getId());
+        assertNotNull(retrievedShape);
+        assertEquals(3.0, ((Triangle) retrievedShape).getA());
     }
 
     @Test
-    void findAll() {
-        assertDoesNotThrow(() -> shapeDAO.findAll());
+    void testUpdateShape() {
+        Color color = new Color(255, 0, 0);
+        session.save(color);
+
+        Shape rectangle = new Rectangle(5.0, 4.0, color);
+        session.save(rectangle);
+
+        Rectangle updatedRectangle = session.get(Rectangle.class, rectangle.getId());
+        updatedRectangle.setA(6.0);
+        session.update(updatedRectangle);
+
+        Rectangle retrievedRectangle = session.get(Rectangle.class, rectangle.getId());
+        assertEquals(6.0, retrievedRectangle.getA());
+    }
+
+    @Test
+    void testDeleteShape() {
+        Color color = new Color(0, 255, 0);
+        session.save(color);
+
+        Shape triangle = new Triangle(3.0, 4.0, 5.0, 2.5, color);
+        session.save(triangle);
+
+        session.delete(triangle);
+        Shape deletedShape = session.get(Triangle.class, triangle.getId());
+        assertNull(deletedShape);
     }
 }
 

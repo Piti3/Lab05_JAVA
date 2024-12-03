@@ -37,4 +37,8 @@ public class Rectangle extends Shape {
     public double getB() {
         return b;
     }
+
+    public void setA(double a) {
+        this.a = a;
+    }
 }

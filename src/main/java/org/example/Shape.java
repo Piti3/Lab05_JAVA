@@ -27,6 +27,10 @@ public abstract class Shape {
     public abstract double getArea();
     public abstract double getPerimeter();
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getColorDescription() {
         return "Red: " + color.getR() + ", Green: " + color.getG() + ", Blue: " + color.getB() + ", Alpha: " + color.getAlpha();
     }

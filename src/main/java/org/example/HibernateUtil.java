@@ -8,10 +8,11 @@ public class HibernateUtil {
 
     static {
         try {
-            // Ładowanie konfiguracji z pliku hibernate.cfg.xml
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+
+            String configFile = System.getProperty("hibernate.config", "hibernate.cfg.xml");
+            sessionFactory = new Configuration().configure(configFile).buildSessionFactory();
         } catch (Throwable ex) {
-            System.err.println("Initial SessionFactory creation failed." + ex);
+            System.err.println("Initial SessionFactory creation failed: " + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
@@ -21,8 +22,8 @@ public class HibernateUtil {
     }
 
     public static void shutdown() {
-        // Zamknięcie połączeń
-        getSessionFactory().close();
+        if (sessionFactory != null && !sessionFactory.isClosed()) {
+            sessionFactory.close();
+        }
     }
 }
-
