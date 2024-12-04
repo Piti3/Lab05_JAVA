@@ -7,13 +7,10 @@ public class Triangle extends Shape {
 
     @Column(nullable = false)
     private double a;
-
-    @Column(nullable = false)
+    @Column(name = "b_1", nullable = false)
     private double b;
-
     @Column(nullable = false)
     private double c;
-
     @Column(nullable = false)
     private double h;
 
@@ -47,8 +44,32 @@ public class Triangle extends Shape {
     public double getA() {
         return a;
     }
+
+    public double getB() {
+        return b;
+    }
+
+    public double getC() {
+        return c;
+    }
+
     public double getH() {
         return h;
     }
 
+    public void setA(double a) {
+        this.a = a;
+    }
+
+    public void setB(double b) {
+        this.b = b;
+    }
+
+    public void setC(double c) {
+        this.c = c;
+    }
+
+    public void setH(double h) {
+        this.h = h;
+    }
 }

@@ -5,40 +5,36 @@ import jakarta.persistence.*;
 @Table(name = "rectangle")
 public class Rectangle extends Shape {
     @Column(nullable = false)
-    private double a;
-
+    private double width;
     @Column(nullable = false)
-    private double b;
+    private double height;
 
 
     public Rectangle() {}
 
-    public Rectangle(double a, double b, Color color) {
+    public Rectangle(double width, double height, Color color) {
         super(color);
-        if (a <= 0 || b <= 0) {
+        if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Zmienne musza byc dodatnie.");
         }
-        this.a = a;
-        this.b = b;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
     public double getArea() {
-        return a * b;
+        return width * height;
     }
     @Override
     public double getPerimeter() {
-        return 2*(a+b);
+        return 2*(width+height);
     }
 
-    public double getA() {
-        return a;
+    public double getWidth() {
+        return width;
     }
-    public double getB() {
-        return b;
+    public double getHeight() {
+        return height;
     }
 
-    public void setA(double a) {
-        this.a = a;
-    }
 }
