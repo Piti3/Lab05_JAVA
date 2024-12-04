@@ -1,1 +1,5 @@
-![image](https://github.com/user-attachments/assets/2aa898ab-c35f-4d07-ae7d-f471b3cda67b)
+POST
+![image](https://github.com/user-attachments/assets/bca90456-f0f0-4dd9-8634-cc6f36a96089)
+
+GET
+![image](https://github.com/user-attachments/assets/e49f2fe2-aa01-42e3-88a3-b87b1777d736)
